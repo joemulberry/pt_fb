@@ -1,0 +1,7 @@
+{
+    "type": "module",
+    "dependencies": {
+        "@supabase/supabase-js": "^1.22.3",
+        "node-fetch": "^2.6.1"
+    }
+}

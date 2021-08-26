@@ -21,6 +21,9 @@ jobs:
             node-version: '14'
             cache: 'npm'
             cache-dependency-path: package-lock.json
+
+
+      - name: install that stuff
         run: npm install
         run: npm test
           

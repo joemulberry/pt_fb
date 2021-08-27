@@ -16,6 +16,17 @@ const addy = 'https://ymbfscerlnfxbmworhbq.supabase.co';
 const key = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTYyOTgzNjI5OCwiZXhwIjoxOTQ1NDEyMjk4fQ.Db41_kA7IeDZP2U9SXMHQ630g3PsyBFI2xoo824QVao';
 const supabase = createClient(addy, key)
 
+// get supabase Id data for all 
+var os_ids = []
+var supa_ids = []
+const { data, error } = await supabase
+    .from('connect_test')
+    .select('id,opensea_id')
+for (let i = 0; i < data.length; i++) {
+    os_ids.push(data[i].opensea_id)
+    supa_ids.push(data[i].id)
+};
+
 // download github data 
 const response = await fetch('https://raw.githubusercontent.com/joemulberry/para_baseinfo/main/core.json', {});
 const data = await response.json();
@@ -196,7 +207,11 @@ for (let i = 0; i < info.length; i++) {
         var is_se = ' '
     };
 
+
+    var supa_index = os_ids.indexOf(info[info_index]['opensea_id']);
+
     const overview = {
+        id: supa_ids[supa_index],
         parallel_id: info[info_index]['parallel_id'],
         opensea_id: info[info_index]['opensea_id'],
         parallel: info[info_index]['parallel'],

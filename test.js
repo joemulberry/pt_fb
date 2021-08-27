@@ -19,7 +19,7 @@ const supabase = createClient(addy, key)
 // get supabase Id data for all 
 var os_ids = []
 var supa_ids = []
-const { data, error } = await supabase
+var { data, error } = await supabase
     .from('connect_test')
     .select('id,opensea_id')
 for (let i = 0; i < data.length; i++) {
@@ -250,7 +250,7 @@ for (let i = 0; i < info.length; i++) {
 //  updating 
 
 for (let i = 0; i < info.overviews; i++) {
-    const { data2, error } = await supabase
+    var { data, error } = await supabase
         .from('connect_test')
         .update(overviews[i])
         .match({ opensea_id: overviews[i]['opensea_id']})

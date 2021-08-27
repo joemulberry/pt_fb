@@ -29,23 +29,23 @@ for (let i = 0; i < data.length; i++) {
 
 // download github data 
 const response = await fetch('https://raw.githubusercontent.com/joemulberry/para_baseinfo/main/core.json', {});
-const data = await response.json();
+const data_core = await response.json();
 
 const response2 = await fetch('https://raw.githubusercontent.com/joemulberry/parallel/main/data/opensea_parallel_dumps.json', {});
-const osdata = await response2.json();
+const data_os = await response2.json();
 
 // Create list of IDs
 const info = []
-for (let i = 0; i < data.length; i++) {
+for (let i = 0; i < data_core.length; i++) {
     var d = {
-        parallel_id: data[i]['parallel_id'],
-        name: data[i]['name'],
-        opensea_id: data[i]['opensea_id'],
-        parallel: data[i]['parallel'],
-        rarity: data[i]['rarity'],
-        card_type: data[i]['type'],
-        supply: data[i]['supply']};
-    if (data[i]['opensea_id'] != '10160') {
+        parallel_id: data_core[i]['parallel_id'],
+        name: data_core[i]['name'],
+        opensea_id: data_core[i]['opensea_id'],
+        parallel: data_core[i]['parallel'],
+        rarity: data_core[i]['rarity'],
+        card_type: data_core[i]['type'],
+        supply: data_core[i]['supply']};
+    if (data_core[i]['opensea_id'] != '10160') {
         info.push(d);
     }
     }
@@ -84,14 +84,12 @@ for (let i = 0; i < info.length; i++) {
     const number_of_orders = Object.size(ordersdata)
 
     // get last sale information 
-    var token_index = osdata.findIndex(x => x.token_id === the_token_id);
+    var token_index = data_os.findIndex(x => x.token_id === the_token_id);
 
     console.log(token_index, 'token_index', the_token_id)
+    console.log('true tester', data_os[token_index]['last_sale'] != null)
 
-
-    console.log('true tester', osdata[token_index]['last_sale'] != null)
-
-    if (osdata[token_index]['last_sale'] === null) {
+    if (data_os[token_index]['last_sale'] === null) {
 
         var last_sale_dict = {
             currency: null,
@@ -103,14 +101,14 @@ for (let i = 0; i < info.length; i++) {
 
     } else {
 
-        var token_id = osdata[token_index]['last_sale']['asset']['token_id']
-        var currency = osdata[token_index]['last_sale']['payment_token']['symbol']
-        var usd_rate = parseFloat(osdata[token_index]['last_sale']['payment_token']['usd_price'])
-        var eth_rate = parseFloat(osdata[token_index]['last_sale']['payment_token']['eth_price'])
-        var decimals = parseInt(osdata[token_index]['last_sale']['payment_token']['decimals'])
-        var event_timestamp = osdata[token_index]['last_sale']['event_timestamp']
-        var total_price = osdata[token_index]['last_sale']['total_price']
-        var quantity = parseInt(osdata[token_index]['last_sale']['quantity'])
+        var token_id = data_os[token_index]['last_sale']['asset']['token_id']
+        var currency = data_os[token_index]['last_sale']['payment_token']['symbol']
+        var usd_rate = parseFloat(data_os[token_index]['last_sale']['payment_token']['usd_price'])
+        var eth_rate = parseFloat(data_os[token_index]['last_sale']['payment_token']['eth_price'])
+        var decimals = parseInt(data_os[token_index]['last_sale']['payment_token']['decimals'])
+        var event_timestamp = data_os[token_index]['last_sale']['event_timestamp']
+        var total_price = data_os[token_index]['last_sale']['total_price']
+        var quantity = parseInt(data_os[token_index]['last_sale']['quantity'])
 
         total_price = (total_price / (10 ** decimals)) / quantity;
 
@@ -125,7 +123,7 @@ for (let i = 0; i < info.length; i++) {
         eth_price = parseFloat(eth_price.toFixed(3));
 
         var usd_price = eth_price * usd_rate
-        var hash = osdata[token_index]['last_sale']['transaction']['transaction_hash']
+        var hash = data_os[token_index]['last_sale']['transaction']['transaction_hash']
 
         var last_sale_dict = {
             currency: currency,
@@ -218,7 +216,7 @@ for (let i = 0; i < info.length; i++) {
         name: info[info_index]['name'],
         rarity: info[info_index]['rarity'],
         card_type: info[info_index]['card_type'],
-        total_no_sales: osdata[token_index]['num_sales'],
+        total_no_sales: data_os[token_index]['num_sales'],
         number_of_bids: number_of_bids,
         number_of_asks: number_of_asks,
         lowest_ask: lowest_ask,
@@ -228,7 +226,7 @@ for (let i = 0; i < info.length; i++) {
         market_gap: market_gap,
         market_cap: market_cap,
         is_se: is_se,
-        img_url: osdata[token_index]['image_preview_url']
+        img_url: data_os[token_index]['image_preview_url']
     };
 
     overviews.push(overview);

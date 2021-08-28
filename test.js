@@ -252,6 +252,5 @@ for (let i = 0; i < info.length; i++) {
 for (let i = 0; i < info.overviews; i++) {
     var { data, error } = supabase
         .from('connect_test')
-        .update(overviews[i])
-        .match({ opensea_id: overviews[i]['opensea_id']})
+        .upsert(overviews[i])
 };

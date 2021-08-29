@@ -254,7 +254,7 @@ for (let i = 0; i < info.length; i++) {
     }
 
 
-    console.log(info[info_index]['name'], 'updated');
+    console.log(info[info_index]['name'], 'updated!');
 
     const { data, error } = await supabase
         .from('connect_test')

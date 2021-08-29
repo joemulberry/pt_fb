@@ -11,6 +11,9 @@ Object.size = function (obj) {
     return size;
 };
 
+// get update date/time as int
+const datenow = Date.now()
+
 //  create connection to supabase
 const addy = 'https://ymbfscerlnfxbmworhbq.supabase.co';
 const key = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTYyOTgzNjI5OCwiZXhwIjoxOTQ1NDEyMjk4fQ.Db41_kA7IeDZP2U9SXMHQ630g3PsyBFI2xoo824QVao';
@@ -50,11 +53,9 @@ for (let i = 0; i < data_core.length; i++) {
     }
     }
 
-// create the empty list to store the overview dicts to 
-var overviews = []
 
 for (let i = 0; i < info.length; i++) {
-    
+
     var the_token_id = info[i]['opensea_id']
 
     // Create the order api url
@@ -207,31 +208,58 @@ for (let i = 0; i < info.length; i++) {
 
 
     var supa_index = os_ids.indexOf(info[info_index]['opensea_id']);
+    if (supa_index === -1) {
+        const overview = {
+            parallel_id: info[info_index]['parallel_id'],
+            opensea_id: info[info_index]['opensea_id'],
+            parallel: info[info_index]['parallel'],
+            name: info[info_index]['name'],
+            rarity: info[info_index]['rarity'],
+            card_type: info[info_index]['card_type'],
+            total_no_sales: data_os[token_index]['num_sales'],
+            number_of_bids: number_of_bids,
+            number_of_asks: number_of_asks,
+            lowest_ask: lowest_ask,
+            highest_bid: highest_bid,
+            pct_on_sale: pct_on_sale,
+            last_sale_price: last_sale_dict['eth_price'],
+            market_gap: market_gap,
+            market_cap: market_cap,
+            is_se: is_se,
+            last_update: datenow,
+            img_url: data_os[token_index]['image_preview_url']
+        };
+    } else {
+        const overview = {
+            id: supa_ids[supa_index],
+            parallel_id: info[info_index]['parallel_id'],
+            opensea_id: info[info_index]['opensea_id'],
+            parallel: info[info_index]['parallel'],
+            name: info[info_index]['name'],
+            rarity: info[info_index]['rarity'],
+            card_type: info[info_index]['card_type'],
+            total_no_sales: data_os[token_index]['num_sales'],
+            number_of_bids: number_of_bids,
+            number_of_asks: number_of_asks,
+            lowest_ask: lowest_ask,
+            highest_bid: highest_bid,
+            pct_on_sale: pct_on_sale,
+            last_sale_price: last_sale_dict['eth_price'],
+            market_gap: market_gap,
+            market_cap: market_cap,
+            is_se: is_se,
+            last_update: datenow, 
+            img_url: data_os[token_index]['image_preview_url']
+        };
+    }
 
-    const overview = {
-        id: supa_ids[supa_index],
-        parallel_id: info[info_index]['parallel_id'],
-        opensea_id: info[info_index]['opensea_id'],
-        parallel: info[info_index]['parallel'],
-        name: info[info_index]['name'],
-        rarity: info[info_index]['rarity'],
-        card_type: info[info_index]['card_type'],
-        total_no_sales: data_os[token_index]['num_sales'],
-        number_of_bids: number_of_bids,
-        number_of_asks: number_of_asks,
-        lowest_ask: lowest_ask,
-        highest_bid: highest_bid,
-        pct_on_sale: pct_on_sale,
-        last_sale_price: last_sale_dict['eth_price'],
-        market_gap: market_gap,
-        market_cap: market_cap,
-        is_se: is_se,
-        img_url: data_os[token_index]['image_preview_url']
-    };
 
-    overviews.push(overview);
-    console.log(overview);
+    console.log(overview['id'], overview['parallel_id'], overview['opensea_id'], overview['name'], 'added');
 
+    const { data, error } = await supabase
+        .from('connect_test')
+        .upsert(overview)
+        
 }
 
 // intitial load 
@@ -249,8 +277,9 @@ for (let i = 0; i < info.length; i++) {
 
 //  updating 
 
-for (let i = 0; i < info.overviews; i++) {
-    var { data, error } = supabase
-        .from('connect_test')
-        .upsert(overviews[i])
-};
+
+// for (let i = 0; i < info.overviews; i++) {
+//     const { data, error } = supabase
+//         .from('connect_test')
+//         .upsert(overviews[i])
+// };

@@ -13,9 +13,9 @@ const { data, error } = await supabase
     .select()
 
 const new_data = [
-    { id: 1, other_id: '1', metric: parseFloat(Math.random().toFixed(3))},
-    { id: 2, other_id: '2', metric: parseFloat(Math.random().toFixed(3)) },
-    { id: 3, other_id: '3', metric: parseFloat(Math.random().toFixed(3)) }
+    { id: 1, other_id: '1123', metric: parseFloat(Math.random().toFixed(3))},
+    { id: 2, other_id: '2123213', metric: parseFloat(Math.random().toFixed(3)) },
+    { id: 4, other_id: '3123123', metric: parseFloat(Math.random().toFixed(3)) }
 ]
 
 for (let i = 0; i < new_data.length; i++) {
@@ -23,3 +23,7 @@ for (let i = 0; i < new_data.length; i++) {
         .from('tinytest')
         .upsert(new_data[i])
 }
+
+
+
+console.log('Date.now()', Date.now())

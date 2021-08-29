@@ -254,12 +254,12 @@ for (let i = 0; i < info.length; i++) {
     }
 
 
-    console.log(overview['id'], overview['parallel_id'], overview['opensea_id'], overview['name'], 'added');
+    console.log(info[info_index]['name'], 'updated');
 
     const { data, error } = await supabase
         .from('connect_test')
         .upsert(overview)
-        
+
 }
 
 // intitial load 

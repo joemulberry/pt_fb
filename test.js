@@ -76,9 +76,7 @@ for (let i = 0; i < info.length; i++) {
     // Catch for an error where there are no orders
     if (Object.keys(orders_wrapper).length == 1) {
         console.log("ordersdata key length is == 1");
-    } else {
-        console.log("we are cooking with gas")
-    };
+    } 
 
     // delve down one level in the json to the list of orders 
     const ordersdata = orders_wrapper['orders'];
@@ -86,9 +84,6 @@ for (let i = 0; i < info.length; i++) {
 
     // get last sale information 
     var token_index = data_os.findIndex(x => x.token_id === the_token_id);
-
-    console.log(token_index, 'token_index', the_token_id)
-    console.log('true tester', data_os[token_index]['last_sale'] != null)
 
     if (data_os[token_index]['last_sale'] === null) {
 
@@ -226,6 +221,7 @@ for (let i = 0; i < info.length; i++) {
             market_gap: market_gap,
             market_cap: market_cap,
             is_se: is_se,
+            supply: parseInt(info[info_index]['supply']),
             last_update: datenow,
             img_url: data_os[token_index]['image_preview_url']
         };

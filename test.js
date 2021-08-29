@@ -209,7 +209,7 @@ for (let i = 0; i < info.length; i++) {
 
     var supa_index = os_ids.indexOf(info[info_index]['opensea_id']);
     if (supa_index === -1) {
-        const overview = {
+        var overview = {
             parallel_id: info[info_index]['parallel_id'],
             opensea_id: info[info_index]['opensea_id'],
             parallel: info[info_index]['parallel'],
@@ -230,7 +230,7 @@ for (let i = 0; i < info.length; i++) {
             img_url: data_os[token_index]['image_preview_url']
         };
     } else {
-        const overview = {
+        var overview = {
             id: supa_ids[supa_index],
             parallel_id: info[info_index]['parallel_id'],
             opensea_id: info[info_index]['opensea_id'],

@@ -244,6 +244,7 @@ for (let i = 0; i < info.length; i++) {
             market_gap: market_gap,
             market_cap: market_cap,
             is_se: is_se,
+            supply: parseInt(info[info_index]['supply']),
             last_update: datenow, 
             img_url: data_os[token_index]['image_preview_url']
         };

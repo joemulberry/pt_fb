@@ -212,18 +212,19 @@ for (let i = 0; i < info.length; i++) {
 
     var supa_index = os_ids.indexOf(info[info_index]['opensea_id']);
 
+    var cardname = info[info_index]['name']
     if (nights.includes(info[info_index]['opensea_id'])) {
-        info[info_index]['name'] = info[info_index]['name'] + " [Night]"
+        var cardname = info[info_index]['name'] + " [Night]";
     } else if (days.includes(info[info_index]['opensea_id'])) {
-        info[info_index]['name'] = info[info_index]['name'] + " [Day]"
-    }
+        var cardname =  info[info_index]['name'] + " [Day]";
+    } 
 
     if (supa_index === -1) {
         var overview = {
             parallel_id: info[info_index]['parallel_id'],
             opensea_id: info[info_index]['opensea_id'],
             parallel: info[info_index]['parallel'],
-            name: info[info_index]['name'],
+            name: cardname,
             rarity: info[info_index]['rarity'],
             card_type: info[info_index]['card_type'],
             total_no_sales: data_os[token_index]['num_sales'],
@@ -247,7 +248,7 @@ for (let i = 0; i < info.length; i++) {
             parallel_id: info[info_index]['parallel_id'],
             opensea_id: info[info_index]['opensea_id'],
             parallel: info[info_index]['parallel'],
-            name: info[info_index]['name'],
+            name: cardname,
             rarity: info[info_index]['rarity'],
             card_type: info[info_index]['card_type'],
             total_no_sales: data_os[token_index]['num_sales'],

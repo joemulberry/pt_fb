@@ -201,8 +201,14 @@ for (let i = 0; i < info.length; i++) {
         var is_se = ' '
     };
 
+    if (info[info_index]['name'].includes('[pl]')) {
+        var perfect_loop = '[PL]'
+    } else {
+        var perfect_loop = ' '
+    };
 
     var supa_index = os_ids.indexOf(info[info_index]['opensea_id']);
+
     if (supa_index === -1) {
         var overview = {
             parallel_id: info[info_index]['parallel_id'],
@@ -223,6 +229,7 @@ for (let i = 0; i < info.length; i++) {
             is_se: is_se,
             supply: parseInt(info[info_index]['supply']),
             last_update: datenow,
+            perfect_loop: perfect_loop,
             img_url: data_os[token_index]['image_preview_url']
         };
     } else {
@@ -244,6 +251,7 @@ for (let i = 0; i < info.length; i++) {
             market_gap: market_gap,
             market_cap: market_cap,
             is_se: is_se,
+            perfect_loop: perfect_loop,
             supply: parseInt(info[info_index]['supply']),
             last_update: datenow, 
             img_url: data_os[token_index]['image_preview_url']

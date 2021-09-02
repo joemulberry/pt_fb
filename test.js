@@ -268,8 +268,12 @@ for (let i = 0; i < info.length; i++) {
         };
     }
 
-
-    console.log(cardname, 'updated!');
+    if (info[info_index]['opensea_id'] === 10251) {
+        console.log('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%')
+        console.log(info[info_index]['name'])
+        console.log('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%')
+    }
+    // console.log(cardname, 'updated!');
 
     const { data, error } = await supabase
         .from('connect_test')

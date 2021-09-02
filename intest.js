@@ -2,7 +2,7 @@ const dS = [
     {
         parallel_id: 1,
         name: 'card name n',
-        opensea_id: 10284,
+        opensea_id: '10284',
         parallel: 'a',
         rarity: 'b',
         card_type: 'card',
@@ -11,7 +11,7 @@ const dS = [
     {
         parallel_id: 2,
         name: 'card name d',
-        opensea_id: 10250,
+        opensea_id: '10250',
         parallel: 'a',
         rarity: 'b',
         card_type: 'card',

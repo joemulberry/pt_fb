@@ -12,8 +12,8 @@ Object.size = function (obj) {
 };
 
 // set days and nights 
-const nights = [12051, 10284, 10294, 10241, 10239, 10243, 10245, 10247, 10249, 10192, 10289, 10200, 10287, 10254, 10256, 10090, 10302]
-const days = [10280, 10252, 10293, 10240, 10238, 10242, 10244, 10246, 10248, 10193, 10288, 10199, 10286, 10253, 10255, 10089, 10301]
+var nights = [12051, 10284, 10294, 10241, 10239, 10243, 10245, 10247, 10249, 10192, 10289, 10200, 10287, 10254, 10256, 10090, 10302]
+var days = [10280, 10252, 10293, 10240, 10238, 10242, 10244, 10246, 10248, 10193, 10288, 10199, 10286, 10253, 10255, 10089, 10301]
 
 // get update date/time as int
 const datenow = Date.now()
@@ -42,7 +42,7 @@ const response2 = await fetch('https://raw.githubusercontent.com/joemulberry/par
 const data_os = await response2.json();
 
 // Create list of IDs
-const info = []
+var info = []
 for (let i = 0; i < data_core.length; i++) {
     var d = {
         parallel_id: data_core[i]['parallel_id'],

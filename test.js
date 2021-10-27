@@ -140,18 +140,18 @@ for (let i = 0; i < info.length; i++) {
     var number_of_bids = 0
     var number_of_asks = 0
 
-    for (let i = 0; i < number_of_orders; i++) {
+    for (let f = 0; f < number_of_orders; f++) {
 
-        var decimals = parseFloat(ordersdata[i]['payment_token_contract']['decimals']);
-        var eth_price = parseFloat(ordersdata[i]['payment_token_contract']['eth_price']);
-        var currency = ordersdata[i]['payment_token_contract']['symbol'];
-        var side = ordersdata[i]['side'];
-        var base_price = parseInt(ordersdata[i]['base_price']);
-        var quantity = parseFloat(ordersdata[i]['quantity']);
+        var decimals = parseFloat(ordersdata[f]['payment_token_contract']['decimals']);
+        var eth_price = parseFloat(ordersdata[f]['payment_token_contract']['eth_price']);
+        var currency = ordersdata[f]['payment_token_contract']['symbol'];
+        var side = ordersdata[f]['side'];
+        var base_price = parseInt(ordersdata[f]['base_price']);
+        var quantity = parseFloat(ordersdata[f]['quantity']);
         base_price = (base_price / (10 ** decimals)) / quantity;
 
         if (currency == 'USDC') {
-            var eth_rate = parseFloat(ordersdata[i]['payment_token_contract']['eth_price']);
+            var eth_rate = parseFloat(ordersdata[f]['payment_token_contract']['eth_price']);
             base_price = base_price * eth_rate;
         }
 
@@ -193,9 +193,9 @@ for (let i = 0; i < info.length; i++) {
     }
 
     const info_index = info.findIndex(x => x.opensea_id === the_token_id);
-    const market_cap = info[info_index]['supply'] * last_sale_dict['eth_price'];
+    const market_cap = info[i]['supply'] * last_sale_dict['eth_price'];
 
-    var pct_on_sale = number_of_asks / info[info_index]['supply'];
+    var pct_on_sale = number_of_asks / info[i]['supply'];
     var pct_on_sale = parseFloat(pct_on_sale.toFixed(3));
 
     if (info[i]['name'].includes('[se]')) {
@@ -222,12 +222,12 @@ for (let i = 0; i < info.length; i++) {
 
     if (supa_index === -1) {
         var overview = {
-            parallel_id: info[info_index]['parallel_id'],
-            opensea_id: info[info_index]['opensea_id'],
-            parallel: info[info_index]['parallel'],
+            parallel_id: info[i]['parallel_id'],
+            opensea_id: info[i]['opensea_id'],
+            parallel: info[i]['parallel'],
             name: cardname,
-            rarity: info[info_index]['rarity'],
-            card_type: info[info_index]['card_type'],
+            rarity: info[i]['rarity'],
+            card_type: info[i]['card_type'],
             total_no_sales: data_os[token_index]['num_sales'],
             number_of_bids: number_of_bids,
             number_of_asks: number_of_asks,
@@ -248,12 +248,12 @@ for (let i = 0; i < info.length; i++) {
     } else {
         var overview = {
             id: supa_ids[supa_index],
-            parallel_id: info[info_index]['parallel_id'],
-            opensea_id: info[info_index]['opensea_id'],
-            parallel: info[info_index]['parallel'],
+            parallel_id: info[i]['parallel_id'],
+            opensea_id: info[i]['opensea_id'],
+            parallel: info[i]['parallel'],
             name: cardname,
-            rarity: info[info_index]['rarity'],
-            card_type: info[info_index]['card_type'],
+            rarity: info[i]['rarity'],
+            card_type: info[infoi_index]['card_type'],
             total_no_sales: data_os[token_index]['num_sales'],
             number_of_bids: number_of_bids,
             number_of_asks: number_of_asks,

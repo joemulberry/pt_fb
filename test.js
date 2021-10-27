@@ -11,10 +11,6 @@ Object.size = function (obj) {
     return size;
 };
 
-// set days and nights 
-var nights = ['12051', '10284', '10294', '10241', '10239', '10243', '10245', '10247', '10249', '10192', '10289', '10200', '10287', '10254', '10256', '10090', '10302']
-var days = ['10280', '10252', '10293', '10240', '10238', '10242', '10244', '10246', '10248', '10193', '10288', '10199', '10286', '10253', '10255', '10089', '10301']
-
 // get update date/time as int
 const datenow = Date.now()
 
@@ -44,18 +40,23 @@ const data_os = await response2.json();
 // Create list of IDs
 var info = []
 for (let i = 0; i < data_core.length; i++) {
-    var d = {
-        parallel_id: data_core[i]['parallel_id'],
-        name: data_core[i]['name'],
-        opensea_id: data_core[i]['opensea_id'],
-        parallel: data_core[i]['parallel'],
-        rarity: data_core[i]['rarity'],
-        card_type: data_core[i]['type'],
-        supply: data_core[i]['supply']};
     if (data_core[i]['opensea_id'] != '10160') {
+        var d = {
+            parallel_id: data_core[i]['parallel_id'],
+            name: data_core[i]['name'],
+            opensea_id: data_core[i]['opensea_id'],
+            parallel: data_core[i]['parallel'],
+            rarity: data_core[i]['rarity'],
+            card_type: data_core[i]['type'],
+            day: data_core[i]['day'],
+            night: data_core[i]['night'],
+            supply: data_core[i]['supply'],
+            original_img: data_core[i]['parallel_img']
+        };
         info.push(d);
     }
-    }
+}
+
 
 for (let i = 0; i < info.length; i++) {
 
@@ -79,7 +80,7 @@ for (let i = 0; i < info.length; i++) {
     // Catch for an error where there are no orders
     if (Object.keys(orders_wrapper).length == 1) {
         console.log("ordersdata key length is == 1");
-    } 
+    }
 
     // delve down one level in the json to the list of orders 
     const ordersdata = orders_wrapper['orders'];
@@ -131,9 +132,7 @@ for (let i = 0; i < info.length; i++) {
             usd_price: usd_price,
             hash: hash
         }
-
     }
-
 
     // loop through to grab a list of bids and asks and count them 
     var bids = []
@@ -149,7 +148,7 @@ for (let i = 0; i < info.length; i++) {
         var side = ordersdata[i]['side'];
         var base_price = parseInt(ordersdata[i]['base_price']);
         var quantity = parseFloat(ordersdata[i]['quantity']);
-        base_price = ( base_price / (10 ** decimals) ) / quantity;
+        base_price = (base_price / (10 ** decimals)) / quantity;
 
         if (currency == 'USDC') {
             var eth_rate = parseFloat(ordersdata[i]['payment_token_contract']['eth_price']);
@@ -170,8 +169,9 @@ for (let i = 0; i < info.length; i++) {
     };
 
 
+
     // calculate highest bid
-    if (number_of_bids >0) {
+    if (number_of_bids > 0) {
         var highest_bid = Math.max.apply(Math, bids);
     } else {
         var highest_bid = null;
@@ -198,26 +198,27 @@ for (let i = 0; i < info.length; i++) {
     var pct_on_sale = number_of_asks / info[info_index]['supply'];
     var pct_on_sale = parseFloat(pct_on_sale.toFixed(3));
 
-    if (info[info_index]['name'].includes('[se]')) {
+    if (info[i]['name'].includes('[se]')) {
         var is_se = '[SE]'
     } else {
         var is_se = ' '
     };
 
-    if (info[info_index]['name'].includes('[pl]')) {
+    if (info[i]['name'].includes('[pl]')) {
         var perfect_loop = '[PL]'
     } else {
         var perfect_loop = ' '
     };
 
-    var supa_index = os_ids.indexOf(info[info_index]['opensea_id']);
+    var supa_index = os_ids.indexOf(info[i]['opensea_id']);
 
-    var cardname = info[info_index]['name']
-    if (nights.includes(info[info_index]['opensea_id'])) {
-        var cardname = info[info_index]['name'] + " [Night]";
-    } else if (days.includes(info[info_index]['opensea_id'])) {
-        var cardname =  info[info_index]['name'] + " [Day]";
-    } 
+    var cardname = info[i]['name']
+
+    if (info[i]['night'] === 1) {
+        var cardname = info[i]['name'] + " [Night]";
+    } else if (info[i]['day'] === 1) {
+        var cardname = info[i]['name'] + " [Day]";
+    }
 
     if (supa_index === -1) {
         var overview = {
@@ -240,7 +241,9 @@ for (let i = 0; i < info.length; i++) {
             supply: parseInt(info[info_index]['supply']),
             last_update: datenow,
             perfect_loop: perfect_loop,
-            img_url: data_os[token_index]['image_preview_url']
+            img_url: data_os[token_index]['original_img'],
+            night: info[i]['night'],
+            day: info[i]['day']
         };
     } else {
         var overview = {
@@ -263,8 +266,10 @@ for (let i = 0; i < info.length; i++) {
             is_se: is_se,
             perfect_loop: perfect_loop,
             supply: parseInt(info[info_index]['supply']),
-            last_update: datenow, 
-            img_url: data_os[token_index]['image_preview_url']
+            last_update: datenow,
+            img_url: data_os[token_index]['original_img'],
+            night: info[i]['night'],
+            day: info[i]['day']
         };
     }
 
@@ -273,32 +278,11 @@ for (let i = 0; i < info.length; i++) {
         console.log(info[info_index]['name'])
         console.log('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%')
     }
-    // console.log(cardname, 'updated!');
 
+    // add updated card information to supabase
+    console.log(cardname, 'updated!');
     const { data, error } = await supabase
         .from('connect_test')
         .upsert(overview)
 
 }
-
-// intitial load 
-// for (let i = 0; i < overviews.length; i++) {
-//     const { data2, error } = await supabase
-//         .from('connect_test')
-//         .delete()
-//         .match({ opensea_id: overviews[i]['opensea_id'] })
-// };
-
-// const { data2, error } = await supabase
-//     .from('connect_test')
-//     .insert(overviews)
-
-
-//  updating 
-
-
-// for (let i = 0; i < info.overviews; i++) {
-//     const { data, error } = supabase
-//         .from('connect_test')
-//         .upsert(overviews[i])
-// };

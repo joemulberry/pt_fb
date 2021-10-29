@@ -224,7 +224,7 @@ for (let i = 0; i < info.length; i++) {
         var overview = {
             parallel_id: info[i]['parallel_id'],
             opensea_id: info[i]['opensea_id'],
-            parallel: info[i]['parallel'],
+            parallel: 'earthen',
             name: cardname,
             rarity: info[i]['rarity'],
             card_type: info[i]['card_type'],
@@ -250,7 +250,7 @@ for (let i = 0; i < info.length; i++) {
             id: supa_ids[supa_index],
             parallel_id: info[i]['parallel_id'],
             opensea_id: info[i]['opensea_id'],
-            parallel: info[i]['parallel'],
+            parallel: 'earthen',
             name: cardname,
             rarity: info[i]['rarity'],
             card_type: info[i]['card_type'],
